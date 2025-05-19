@@ -1,0 +1,142 @@
+@local=http://localhost:5000
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODJiNzg5M2VjM2Y5MTdhM2Y4ZTkxZWEiLCJpc0J1c2luZXNzIjp0cnVlLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzQ3NjgzODg1LCJleHAiOjE3NDc2ODc0ODV9.CdVLHM6pMCD-_zMfNmvioTj5Y5uO4PpmTRpFM9e2nsg
+
+
+
+### Register a new user
+POST http://localhost:5000/api/auth/register
+Content-Type: application/json
+
+{
+  "name": {
+    "first": "Rad",
+    "middle": "24",
+    "last": "K"
+  },
+  "email": "rad24k@gmail.com",
+  "password": "rad24k123",
+  "phone": "1234567890",
+  "address": {
+    "street": "123 Cat St",
+    "city": "The Cat City",
+    "state": "Catifornia",
+    "zip": "12345",
+    "country": "USA"
+  },
+  "isBusiness": true
+}
+
+### Login a user
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "rad24k@gmail.com",
+  "password": "rad24k123"
+}
+
+### Get all users (admin only)
+GET http://localhost:5000/api/users
+Authorization: {{token}}
+
+### Get a specific user
+GET http://localhost:5000/api/users/682b7893ec3f917a3f8e91ea
+Authorization: {{token}}
+
+### Update a user
+PUT http://localhost:5000/api/users/682b7893ec3f917a3f8e91ea
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "name": {
+    "first": "Rad",
+    "middle": "24",
+    "last": "K"
+  },
+  "email": "rad24k@gmail.com",
+  "password": "rad24k123",
+  "phone": "1234567890",
+  "address": {
+    "street": "123 Cat's St",
+    "city": "The Cat City",
+    "state": "Catifornia",
+    "zip": "12345",
+    "country": "USA"
+  },
+  "isBusiness": true
+}
+
+### Change isBusiness status
+PATCH http://localhost:5000/api/users/682b7893ec3f917a3f8e91ea
+Authorization: {{token}}
+
+### Delete a user
+DELETE http://localhost:5000/api/users/682b7893ec3f917a3f8e91ea
+Authorization: {{token}}
+
+### Get all cards
+GET http://localhost:5000/api/cards
+Authorization: {{token}}
+
+### Get all cards created by the logged-in user
+GET http://localhost:5000/api/cards/my-cards
+Authorization: {{token}}
+
+### Get a specific card
+GET http://localhost:5000/api/cards/682b85b0d590aab25bbb63df
+Authorization: {{token}}
+
+### Create a new card
+POST http://localhost:5000/api/cards
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "title": "Business Card ",
+  "subtitle": "Your Trusted Partner",
+  "description": "We provide the best services in the industry.",
+  "phone": "1234567890",
+  "email": "rad24k@gmail.com",
+  "web": "https://example.com",
+  "image": "https://example.com/image.jpg",
+  "address": {
+    "street": "123 Business St",
+    "city": "Business City",
+    "state": "BC",
+    "zip": "54321",
+    "country": "USA"
+  },
+  "bizNumber": "123456789"
+}
+
+### Update an existing card
+PUT http://localhost:5000/api/cards/682b85b0d590aab25bbb63df
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "title": "Updated Business Card",
+  "subtitle": "Your Trusted Partner - Updated",
+  "description": "We provide even better services now.",
+  "phone": "0987654321",
+  "email": "rad24k@gmail.com",
+  "web": "https://updated-example.com",
+  "image": "https://updated-example.com/image.jpg",
+  "address": {
+    "street": "456 Updated St",
+    "city": "Updated City",
+    "state": "UC",
+    "zip": "12345",
+    "country": "USA"
+  },
+  "bizNumber": "987654321"
+}
+
+### Like or unlike a card
+PATCH http://localhost:5000/api/cards/682b85b0d590aab25bbb63df
+Authorization: {{token}}
+
+### Delete a card
+DELETE http://localhost:5000/api/cards/682b85b0d590aab25bbb63df
+Authorization: {{token}}
