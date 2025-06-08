@@ -1,5 +1,5 @@
 @local=http://localhost:5000
-@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODJiNzg5M2VjM2Y5MTdhM2Y4ZTkxZWEiLCJpc0J1c2luZXNzIjp0cnVlLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzQ3NjgzODg1LCJleHAiOjE3NDc2ODc0ODV9.CdVLHM6pMCD-_zMfNmvioTj5Y5uO4PpmTRpFM9e2nsg
+@token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODJiNzg5M2VjM2Y5MTdhM2Y4ZTkxZWEiLCJpc0J1c2luZXNzIjp0cnVlLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNzQ5Mzk3MjI0LCJleHAiOjE3NDk0MDA4MjR9.aBeCV-ZjBiPPviYASz24KHtFlQGZlUGRDqpYExjwni0
 
 
 
@@ -94,18 +94,18 @@ Authorization: {{token}}
 
 {
   "title": "Business Card ",
-  "subtitle": "Your Trusted Partner",
-  "description": "We provide the best services in the industry.",
+  "subtitle": "Your Trusted Partner Cat",
+  "description": "We provide the best Cat services in the industry.",
   "phone": "1234567890",
   "email": "rad24k@gmail.com",
   "web": "https://example.com",
   "image": "https://example.com/image.jpg",
   "address": {
-    "street": "123 Business St",
-    "city": "Business City",
+    "street": "123 Cat St",
+    "city": "Cat City",
     "state": "BC",
     "zip": "54321",
-    "country": "USA"
+    "country": "CAT"
   },
   "bizNumber": "123456789"
 }
@@ -138,5 +138,26 @@ PATCH http://localhost:5000/api/cards/682b85b0d590aab25bbb63df
 Authorization: {{token}}
 
 ### Delete a card
-DELETE http://localhost:5000/api/cards/682b85b0d590aab25bbb63df
+DELETE http://localhost:5000/api/cards/6845b04352cc4eaf33bd8657
 Authorization: {{token}}
+
+### Trigger an error (invalid endpoint, should log to file)
+GET http://localhost:5000/api/does-not-exist
+
+### Login with wrong password (repeat 3 times to test user blocking)
+POST http://localhost:5000/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "rad24k@gmail.com",
+  "password": "wrongpassword"
+}
+
+### Admin edits card bizNumber (replace with actual admin token if needed)
+PATCH http://localhost:5000/api/cards/682b85b0d590aab25bbb63df/bizNumber
+Content-Type: application/json
+Authorization: {{token}}
+
+{
+  "bizNumber": "5555555"
+}

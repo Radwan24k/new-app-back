@@ -1,10 +1,15 @@
 const fs = require('fs');
 const path = require('path');
 
-const logFilePath = path.join(__dirname, '../logs/error.log');
-
-const logErrorToFile = (error) => {
-  const logMessage = `${new Date().toISOString()} - ${error}\n`;
+const logErrorToFile = (error, statusCode = 500) => {
+  const now = new Date();
+  const dateStr = now.toISOString().slice(0, 10); // YYYY-MM-DD
+  const logDir = path.join(__dirname, '../logs');
+  if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir);
+  }
+  const logFilePath = path.join(logDir, `${dateStr}.log`);
+  const logMessage = `${now.toISOString()} | Status: ${statusCode} | ${error}\n`;
   fs.appendFile(logFilePath, logMessage, (err) => {
     if (err) {
       console.error('Failed to write to log file:', err);

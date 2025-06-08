@@ -18,6 +18,8 @@ const userSchema = new mongoose.Schema({
   },
   isBusiness: { type: Boolean, default: false },
   isAdmin: { type: Boolean, default: false },
+  isBlocked: { type: Boolean, default: false },
+  blockExpires: { type: Date },
 });
 
 const User = mongoose.model('User', userSchema);

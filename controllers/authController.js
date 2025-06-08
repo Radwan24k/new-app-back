@@ -82,6 +82,19 @@ exports.login = async (req, res) => {
 
     if (!user) return res.status(400).json({ message: 'Invalid email or password' });
 
+    // Check if user is blocked and if block has expired
+    if (user.isBlocked) {
+      if (user.blockExpires && user.blockExpires > new Date()) {
+        const minutes = Math.ceil((user.blockExpires - new Date()) / 60000);
+        return res.status(403).json({ message: `User is blocked. Try again in ${minutes} minutes.` });
+      } else {
+        // Unblock user if block has expired
+        user.isBlocked = false;
+        user.blockExpires = null;
+        await user.save();
+      }
+    }
+
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
@@ -89,10 +102,11 @@ exports.login = async (req, res) => {
       const attempts = failedLoginAttempts.get(email) || 0;
       failedLoginAttempts.set(email, attempts + 1);
 
-      if (attempts + 1 >= 5) {
+      if (attempts + 1 >= 3) {
         user.isBlocked = true;
+        user.blockExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
         await user.save();
-        return res.status(403).json({ message: 'User is blocked due to multiple failed login attempts' });
+        return res.status(403).json({ message: 'User is blocked due to multiple failed login attempts. Try again in 24 hours.' });
       }
 
       return res.status(400).json({ message: 'Invalid email or password' });
